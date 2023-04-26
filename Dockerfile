@@ -14,4 +14,4 @@ RUN mvn -f /home/app/pom.xml clean package
 FROM openjdk:17-jdk-slim
 COPY --from=build /home/app/target/java-spring-security-test-*.jar /usr/local/lib/demo.jar
 EXPOSE ${PORT}
-ENTRYPOINT ["java","-jar","/usr/local/lib/demo.jar","--port ${PORT}"]
+ENTRYPOINT ["java","-Xmx1024m","-jar","/usr/local/lib/demo.jar","--port", "$PORT"]
