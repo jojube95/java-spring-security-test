@@ -24,4 +24,9 @@ public class UserService {
             return user;
         }
     }
+
+    public User register(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
 }
