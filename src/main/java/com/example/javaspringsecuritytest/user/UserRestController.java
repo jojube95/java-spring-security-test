@@ -7,7 +7,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -55,9 +57,14 @@ public class UserRestController {
     }
 
     @GetMapping("/getData")
-    public User getData(@RequestBody User user){
-        // TODO
-        return new User();
+    public ResponseEntity<?> getData(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        try{
+            User user = userService.loadUserByUsername(authentication.getName());
+            return ResponseEntity.ok().body(user);
+        } catch (UsernameNotFoundException e) {
+            return (ResponseEntity<?>) ResponseEntity.badRequest();
+        }
     }
 
     private String getToken(User localUser) {
