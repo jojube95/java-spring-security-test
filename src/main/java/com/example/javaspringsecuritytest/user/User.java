@@ -1,19 +1,30 @@
 package com.example.javaspringsecuritytest.user;
 
-import org.springframework.data.annotation.Id;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 
 @Document("user")
 public class User implements UserDetails {
+    @NotBlank(message = "Invalid Username: Empty username")
+    @NotNull(message = "Invalid Username: Null username")
+    @Size(min = 1, max = 16, message = "Invalid Username: Username length between 1-16 characters")
     private String username;
 
+    @NotBlank(message = "Invalid Password: Empty password")
+    @NotNull(message = "Invalid Password: Null password")
+    @Size(min = 8, max = 16, message = "Invalid Password: Password length between 8-16 characters")
     private String password;
+
+    @Email(message = "Invalid Email: Invalid email")
+    @Size(max = 32, message = "Invalid Email: Password length between 0-32 characters")
     private String email;
 
     public User(){

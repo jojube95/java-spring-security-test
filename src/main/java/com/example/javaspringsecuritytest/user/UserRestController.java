@@ -2,17 +2,18 @@ package com.example.javaspringsecuritytest.user;
 
 import com.example.javaspringsecuritytest.authentication.JwtAuthenticationResponse;
 import com.example.javaspringsecuritytest.exception.UserAlreadyExistAuthenticationException;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
 import java.util.stream.Collectors;
@@ -31,7 +32,7 @@ public class UserRestController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthenticationResponse> login(@RequestBody User user){
+    public ResponseEntity<JwtAuthenticationResponse> login(@RequestBody @Valid User user){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         User localUser = (User) authentication.getPrincipal();
@@ -40,7 +41,7 @@ public class UserRestController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody User user){
+    public ResponseEntity<String> register(@RequestBody @Valid User user){
         try {
             userService.register(user);
         } catch (UserAlreadyExistAuthenticationException e) {
@@ -48,12 +49,6 @@ public class UserRestController {
         }
 
         return ResponseEntity.ok().body("Username register successfully!");
-    }
-
-    @GetMapping("/logout")
-    public User logout(@RequestBody User user){
-        // TODO
-        return new User();
     }
 
     @GetMapping("/getData")
