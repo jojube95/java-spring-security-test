@@ -15,7 +15,7 @@ import java.util.Objects;
 public class User implements UserDetails {
     @NotBlank(message = "Invalid Username: Empty username")
     @NotNull(message = "Invalid Username: Null username")
-    @Size(min = 1, max = 16, message = "Invalid Username: Username length between 1-16 characters")
+    @Size(min = 1, max = 32, message = "Invalid Username: Username length between 1-32 characters")
     private String username;
 
     @NotBlank(message = "Invalid Password: Empty password")
