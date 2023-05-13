@@ -21,13 +21,14 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserRestController.class)
 @Import(SecurityConfig.class)
-public class UserRestControllerTest {
+class UserRestControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -42,9 +43,10 @@ public class UserRestControllerTest {
 
     @Test
     void registerValidUserTest() throws Exception {
-        User user = new User("username", "password", "email@email.com");
+        UserDTO user = new UserDTO("username", "password", "email@email.com");
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/register")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(this.mapper.writeValueAsString(user));
@@ -59,9 +61,10 @@ public class UserRestControllerTest {
 
     @Test
     void registerValidUserExistsTest() throws Exception {
-        User user = new User("username", "password", "email@email.com");
+        UserDTO user = new UserDTO("username", "password", "email@email.com");
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/register")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(this.mapper.writeValueAsString(user));
@@ -78,9 +81,10 @@ public class UserRestControllerTest {
 
     @Test
     void registerInvalidUserTest() throws Exception {
-        User user = new User(null, "pass", "email");
+        UserDTO user = new UserDTO(null, "pass", "email");
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/register")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(this.mapper.writeValueAsString(user));
@@ -147,6 +151,7 @@ public class UserRestControllerTest {
         User user = new User("username", "password", "email@email.com");
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/login")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(this.mapper.writeValueAsString(user));
@@ -165,6 +170,7 @@ public class UserRestControllerTest {
         User user = new User(null, "pass", "email");
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/login")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(this.mapper.writeValueAsString(user));
@@ -187,6 +193,7 @@ public class UserRestControllerTest {
         when(auth.getPrincipal()).thenReturn(user);
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/login")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(this.mapper.writeValueAsString(user));

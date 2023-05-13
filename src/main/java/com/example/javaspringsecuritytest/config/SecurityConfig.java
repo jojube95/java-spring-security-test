@@ -38,7 +38,7 @@ public class SecurityConfig {
     @Value("${jwt.private.key}")
     RSAPrivateKey privateKey;
 
-    public static final String[] PUBLIC_PATHS = {"/register", "/login"};
+    protected static final String[] PUBLIC_PATHS = {"/register", "/login"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -46,11 +46,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(PUBLIC_PATHS).permitAll()
                 .anyRequest().authenticated().and()
-                .csrf().disable()
                 .httpBasic().disable()
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-                .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .exceptionHandling((exceptions) -> exceptions
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
                         .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
                 )

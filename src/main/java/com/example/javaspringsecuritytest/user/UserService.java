@@ -36,12 +36,12 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public void register(User user) {
+    public void register(UserDTO user) {
         if (userRepository.existsUserByUsername(user.getUsername())) {
             throw new UserAlreadyExistAuthenticationException("User with username " + user.getUsername() + " already exist");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        userRepository.save(buildUser(user));
     }
 
     public String getToken(User localUser) {
@@ -58,5 +58,9 @@ public class UserService implements UserDetailsService {
                 .claim("scope", scope)
                 .build();
         return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+
+    private User buildUser(UserDTO userDTO) {
+        return new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getEmail());
     }
 }

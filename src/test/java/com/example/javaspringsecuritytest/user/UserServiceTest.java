@@ -14,7 +14,7 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+class UserServiceTest {
     @Mock
     UserRepository userRepository;
 
@@ -24,10 +24,12 @@ public class UserServiceTest {
     @InjectMocks
     UserService userService;
 
+    UserDTO userDTO;
     User user;
 
     @BeforeEach
     public void initEach(){
+        userDTO = new UserDTO("username", "password", "email");
         user = new User("username", "password", "email");
     }
 
@@ -49,10 +51,12 @@ public class UserServiceTest {
 
     @Test()
     void loadUserByUsernameUserNotExistTest() {
+        String username = user.getUsername();
+
         when(userRepository.findUserByUsername(user.getUsername())).thenReturn(null);
 
         Exception exception = assertThrows(UsernameNotFoundException.class, () -> {
-                userService.loadUserByUsername(user.getUsername());
+                userService.loadUserByUsername(username);
         });
 
         assertEquals("Username username does not exist", exception.getMessage());
@@ -60,7 +64,7 @@ public class UserServiceTest {
 
     @Test
     void registerCallExistsUserByUsernameTest() {
-        userService.register(user);
+        userService.register(userDTO);
 
         verify(userRepository, times(1)).existsUserByUsername(user.getUsername());
     }
@@ -70,7 +74,7 @@ public class UserServiceTest {
         when(userRepository.existsUserByUsername(user.getUsername())).thenReturn(false);
         when(passwordEncoder.encode(user.getPassword())).thenReturn("encodedPassword");
 
-        userService.register(user);
+        userService.register(userDTO);
 
         user.setPassword("encodedPassword");
 
@@ -82,7 +86,7 @@ public class UserServiceTest {
         when(userRepository.existsUserByUsername(user.getUsername())).thenReturn(true);
 
         Exception exception = assertThrows(UserAlreadyExistAuthenticationException.class, () -> {
-            userService.register(user);
+            userService.register(userDTO);
         });
 
         assertEquals("User with username username already exist", exception.getMessage());

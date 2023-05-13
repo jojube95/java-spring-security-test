@@ -22,7 +22,7 @@ public class UserRestController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthenticationResponse> login(@RequestBody @Valid User user){
+    public ResponseEntity<JwtAuthenticationResponse> login(@RequestBody @Valid UserDTO user){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         User localUser = (User) authentication.getPrincipal();
@@ -31,13 +31,13 @@ public class UserRestController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid User user){
+    public ResponseEntity<String> register(@RequestBody @Valid UserDTO user){
         userService.register(user);
         return ResponseEntity.ok().body("Username register successfully!");
     }
 
     @GetMapping("/getData")
-    public ResponseEntity<?> getData(){
+    public ResponseEntity<User> getData(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.loadUserByUsername(authentication.getName());
         return ResponseEntity.ok().body(user);
