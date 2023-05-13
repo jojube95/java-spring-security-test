@@ -16,7 +16,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"username\":\"test\", \"password\":\"testtest\", \"email\":\"test@test.com\"}",
+					"raw": "{\"username\":\"anywr-group-recruitement\", \"password\":\"password\", \"email\":\"anywr-group@anywr.com\"}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -24,12 +24,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/register",
-					"protocol": "http",
+					"raw": "https://java-spring-security-test-production.up.railway.app/register",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"java-spring-security-test-production",
+						"up",
+						"railway",
+						"app"
 					],
-					"port": "8080",
 					"path": [
 						"register"
 					]
@@ -44,7 +46,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"username\":\"test\", \"password\":\"test1234\"}",
+					"raw": "{\"username\":\"anywr-group-recruitement\", \"password\":\"password\"}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -52,12 +54,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/login",
-					"protocol": "http",
+					"raw": "https://java-spring-security-test-production.up.railway.app/login",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"java-spring-security-test-production",
+						"up",
+						"railway",
+						"app"
 					],
-					"port": "8080",
 					"path": [
 						"login"
 					]
@@ -93,12 +97,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/getData",
-					"protocol": "http",
+					"raw": "https://java-spring-security-test-production.up.railway.app/getData",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"java-spring-security-test-production",
+						"up",
+						"railway",
+						"app"
 					],
-					"port": "8080",
 					"path": [
 						"getData"
 					]
