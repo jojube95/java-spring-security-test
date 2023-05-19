@@ -1,0 +1,116 @@
+{
+	"info": {
+		"_postman_id": "5c9a139f-d9b4-43aa-a187-637cac1db0c0",
+		"name": "java-spring-security-test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10330908"
+	},
+	"item": [
+		{
+			"name": "register",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"anywr-group-recruitement\", \"password\":\"password\", \"email\":\"anywr-group@anywr.com\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://java-spring-security-test-production.up.railway.app/register",
+					"protocol": "https",
+					"host": [
+						"java-spring-security-test-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"anywr-group-recruitement\", \"password\":\"password\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://java-spring-security-test-production.up.railway.app/login",
+					"protocol": "https",
+					"host": [
+						"java-spring-security-test-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getData",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"test\", \"password\":\"test\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://java-spring-security-test-production.up.railway.app/getData",
+					"protocol": "https",
+					"host": [
+						"java-spring-security-test-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"getData"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

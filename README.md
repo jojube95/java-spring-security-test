@@ -29,3 +29,19 @@ In addition, the API should include the following:
 - Push to your account on github
 - Once finished, allow developer access for username anywr-group-recruitement
 - Update the recruitement team with the link of your project.
+
+## Resources consulted
+- https://docs.railway.app/deploy/dockerfiles
+- https://medium.com/@dan.avila7/sube-tu-app-en-nodejs-mongodb-con-docker-a-railway-en-5-minutos-da1f67f566c3
+- https://start.spring.io/
+- https://spring.io/guides/topicals/spring-boot-docker/
+- https://spring.io/guides/gs/rest-service/
+- https://www.jetbrains.com/help/idea/convert-a-regular-project-into-a-maven-project.html
+- https://blog.railway.app/p/github-actions
+- https://www.javachinna.com/secure-spring-rest-api-oauth2-jwt-authentication/
+- https://salithachathuranga94.medium.com/validation-and-exception-handling-in-spring-boot-51597b580ffd
+
+## Project delivery
+- Project is deployed on https://java-spring-security-test-production.up.railway.app/
+- It can be tested using the next credentials {"username":"anywr-group-recruitement", "password":"password"}
+- You can download the Postman collection export postman_collection.json inside root directory
