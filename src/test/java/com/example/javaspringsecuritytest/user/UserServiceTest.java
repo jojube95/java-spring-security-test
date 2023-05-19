@@ -6,8 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -20,6 +23,12 @@ class UserServiceTest {
 
     @Mock
     PasswordEncoder passwordEncoder;
+
+    @Spy
+    JwtEncoder jwtEncoder;
+
+    @Spy
+    ModelMapper modelMapper;
 
     @InjectMocks
     UserService userService;

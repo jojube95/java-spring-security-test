@@ -1,6 +1,7 @@
 package com.example.javaspringsecuritytest.user;
 
 import com.example.javaspringsecuritytest.exception.UserAlreadyExistAuthenticationException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,12 +19,14 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtEncoder encoder;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtEncoder encoder){
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtEncoder encoder, ModelMapper modelMapper){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.encoder = encoder;
+        this.modelMapper = modelMapper;
     }
 
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -41,7 +44,8 @@ public class UserService implements UserDetailsService {
             throw new UserAlreadyExistAuthenticationException("User with username " + user.getUsername() + " already exist");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(buildUser(user));
+        User userBD = this.modelMapper.map(user, User.class);
+        userRepository.save(userBD);
     }
 
     public String getToken(User localUser) {
@@ -58,9 +62,5 @@ public class UserService implements UserDetailsService {
                 .claim("scope", scope)
                 .build();
         return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
-    }
-
-    private User buildUser(UserDTO userDTO) {
-        return new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getEmail());
     }
 }
